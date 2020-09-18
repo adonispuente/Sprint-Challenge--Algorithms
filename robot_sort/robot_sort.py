@@ -81,11 +81,13 @@ class SortingRobot:
         Turn on the robot's light
         """
         self._light = "ON"
+
     def set_light_off(self):
         """
         Turn off the robot's light
         """
         self._light = "OFF"
+
     def light_is_on(self):
         """
         Returns True if the robot's light is on and False otherwise.
@@ -95,16 +97,57 @@ class SortingRobot:
     def sort(self):
         """
         Sort the robot's list.
+        1.We need to grab the list
+        2. check if the list is actually valid aka self.list > 1
+        3. if it is, start sorting them
+        4. loop through the list, compare the item in front of index with the build in compare method
+        5. if its less than the current index move it,
+        6. trying bubble sort
         """
-        # Fill this out
-        pass
+
+        while not self.light_is_on():
+            self.set_light_on()  # assume list is sorted
+            # loop through array, swapping any adjacent values where left is greater than right
+            while self.can_move_right():
+                # start with robot holding an item
+                self.swap_item()
+                # move right to compare held item with item next in list
+                self.move_right()
+                # if robot item is greater than item in list, swap values
+                if self.compare_item() == 1:
+                    # say that list is not sorted
+                    self.set_light_off()
+                    # swap items
+                    self.swap_item()
+                    self.move_left()
+                    self.swap_item()
+                    self.move_right()
+                else:
+                    # move None value down list by 1
+                    self.move_left()
+                    self.swap_item()
+                    self.move_right()
+            # reset robot position to first element in list
+            while self.can_move_left():
+                self.move_left()
 
 
+        # cant access variables directly
+        # if len(self._list) > 1:
+        #     swaps_occured = True
+        #     while swaps_occured:
+        #         swaps_occured = False
+        #         for i in range(len(self._list)-1):
+        #             if self._list[i] > self._list[i+1]:
+        #                 self._list[i], self._list[i +
+        #                                           1] = self._list[i+1], self._list[i]
+        #                 swaps_occured = True
 if __name__ == "__main__":
     # Test our your implementation from the command line
     # with `python robot_sort.py`
 
-    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
+    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1,
+         45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
 
     robot = SortingRobot(l)
 
